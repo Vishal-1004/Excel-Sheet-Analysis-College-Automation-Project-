@@ -1,3 +1,4 @@
 import Home from "./Home";
+import PrivacyPolicy from "./PrivacyPolicy";
 
-export { Home };
+export { Home, PrivacyPolicy };
