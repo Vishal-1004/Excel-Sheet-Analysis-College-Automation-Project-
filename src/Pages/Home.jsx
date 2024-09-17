@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
 
-import { ExcelUpload } from "../Components";
+import { Analysis, ExcelUpload } from "../Components";
 
-function Home(){
+function Home() {
   const [firstSheetUploaded, setFirstSheetUploaded] = useState(false);
   const [secondSheetUploaded, setSecondSheetUploaded] = useState(false);
-  const [firstFileName, setFirstFileName] = useState('');
-  const [secondFileName, setSecondFileName] = useState('');
-  const [firstFile, setFirstFile] = useState(null);
-  const [secondFile, setSecondFile] = useState(null);
+  const [firstFileName, setFirstFileName] = useState("");
+  const [secondFileName, setSecondFileName] = useState("");
+  const [firstFileData, setFirstFileData] = useState(null);
+  const [secondFileData, setSecondFileData] = useState(null);
 
-  const handleFirstSheetUpload = (file) => {
+  const [showAnalysis, setShowAnalysis] = useState(false);
+
+  const handleFirstSheetUpload = (file, fileData) => {
     if (file) {
       setFirstSheetUploaded(true);
       setFirstFileName(file.name);
-      setFirstFile(file);
+      setFirstFileData(fileData);
     }
   };
 
-  const handleSecondSheetUpload = (file) => {
+  const handleSecondSheetUpload = (file, fileData) => {
     if (file) {
       setSecondSheetUploaded(true);
       setSecondFileName(file.name);
-      setSecondFile(file);
+      setSecondFileData(fileData);
     }
   };
 
   const handleAnalyzeClick = () => {
-    if (firstFile && secondFile) {
-      console.log("First File:", firstFile);
-      console.log("Second File:", secondFile);
+    if (firstFileData && secondFileData) {
+      setShowAnalysis(true);
     } else {
       console.log("Please upload both files.");
     }
@@ -107,6 +108,14 @@ function Home(){
         >
           Analyze
         </button>
+        {showAnalysis && (
+          <Analysis
+            file1={firstFileName}
+            file2={secondFileName}
+            file1Data={firstFileData}
+            file2Data={secondFileData}
+          />
+        )}
       </div>
     </div>
   );

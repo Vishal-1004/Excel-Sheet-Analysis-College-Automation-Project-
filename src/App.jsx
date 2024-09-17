@@ -8,7 +8,6 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/terms-conditions" element={<Home />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />

@@ -32,8 +32,8 @@ const ScrollToTop = () => {
     <div className="fixed bottom-4 right-4 z-50">
       {backToTop && (
         <motion.button
-          className="bg-gray-800 p-2 rounded-full"
-          onClick={scrollUp} 
+          className="bg-green-800 p-2 rounded-full"
+          onClick={scrollUp}
           initial={{ scale: 1 }}
           whileHover={{ scale: 1.2 }}
         >

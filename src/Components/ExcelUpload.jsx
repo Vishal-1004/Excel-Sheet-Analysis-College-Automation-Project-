@@ -11,12 +11,15 @@ const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
 
       const workSheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      // Convert sheet to JSON and fetch the headers
-      const jsonData = utils.sheet_to_json(workSheet, {
+      // Convert sheet to json and fetch the data
+      const jsonData = utils.sheet_to_json(workSheet);
+
+      // Convert sheet to array and fetch the headers
+      const arrayData = utils.sheet_to_json(workSheet, {
         header: 1,
         defval: "",
       });
-      const headers = jsonData[0]; // First row contains the headers
+      const headers = arrayData[0]; // First row contains the headers
 
       const hasRegistrationNumber = headers.includes("Registration Number");
       const hasQuestionNumber = headers.includes("Question Number");
@@ -48,7 +51,7 @@ const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
       }
 
       if (success) {
-        onFileChange(file);
+        onFileChange(file, jsonData);
       } else {
         onFileChange(null);
       }
