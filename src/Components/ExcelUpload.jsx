@@ -56,7 +56,7 @@ const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
   };
 
   return (
-    <div className="border-2 mt-4 border-gray-300 p-5 rounded-lg text-center w-[90vw] sm:w-1/2 md:w-2/3 md:h-[220px] mx-auto ">
+    <div className="border-2 mt-4 border-gray-200 p-5 rounded-lg text-center w-[90vw] sm:w-1/2 md:w-2/3 md:h-[220px] mx-auto shadow-md">
       <h2 className="text-xl font-semibold mb-4">{heading}</h2>
 
       <div className="relative inline-block w-full">
