@@ -3,11 +3,15 @@ import { Home } from "./Pages";
 
 const App = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      <Home />
+      
+      <div className="flex-grow">
+        <Home />
+      </div>
+      
       <Footer />
-    </>
+    </div>
   );
 };
 
