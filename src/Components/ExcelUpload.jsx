@@ -11,9 +11,6 @@ const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
 
       const workSheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      // Convert sheet to json and fetch the data
-      const jsonData = utils.sheet_to_json(workSheet);
-
       // Convert sheet to array and fetch the headers
       const arrayData = utils.sheet_to_json(workSheet, {
         header: 1,
@@ -51,7 +48,7 @@ const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
       }
 
       if (success) {
-        onFileChange(file, jsonData);
+        onFileChange(file);
       } else {
         onFileChange(null);
       }

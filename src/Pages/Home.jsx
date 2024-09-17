@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import { read, utils } from "xlsx";
 import { motion } from "framer-motion";
 
 import { Analysis, ExcelUpload } from "../Components";
@@ -13,19 +14,50 @@ function Home() {
 
   const [showAnalysis, setShowAnalysis] = useState(false);
 
-  const handleFirstSheetUpload = (file, fileData) => {
+  const handleFirstSheetUpload = async (file) => {
     if (file) {
       setFirstSheetUploaded(true);
       setFirstFileName(file.name);
-      setFirstFileData(fileData);
+
+      const data = await file.arrayBuffer();
+      const workbook = read(data);
+
+      const workSheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = utils.sheet_to_json(workSheet);
+
+      console.log(jsonData);
+      setFirstFileData(jsonData);
     }
   };
 
-  const handleSecondSheetUpload = (file, fileData) => {
+  const handleSecondSheetUpload = async (file) => {
     if (file) {
       setSecondSheetUploaded(true);
       setSecondFileName(file.name);
-      setSecondFileData(fileData);
+
+      const data = await file.arrayBuffer();
+      const workbook = read(data);
+
+      const workSheet = workbook.Sheets[workbook.SheetNames[0]];
+
+      // Read the data as an array of arrays, where the first row is the headers, and subsequent rows are data
+      const arrayData = utils.sheet_to_json(workSheet, {
+        header: 1,
+        defval: "",
+      });
+
+      // Separate the column names (headers) and the actual row data
+      const colNames = arrayData[0]; // First row (headers)
+      const rowData = arrayData.slice(1); // All rows except the first
+
+      // Create an object with columns as keys and their respective entries as values
+      const columnsData = colNames.reduce((acc, colName, index) => {
+        acc[colName] = rowData.map((row) => row[index]); // Extract each column's data
+        return acc;
+      }, {});
+
+      console.log(columnsData);
+      setSecondFileData(columnsData);
     }
   };
 
@@ -119,6 +151,6 @@ function Home() {
       </div>
     </div>
   );
-};
+}
 
 export default Home;
