@@ -11,9 +11,9 @@ function Footer(){
         </div>
         <div className="hidden md:block">
           <p>Made With &#9829; By
-            <Link to="https://google.com"> Vishal</Link>, 
-            <Link to="https://google.com"> Shashank</Link> &
-            <Link to="https://google.com"> Hariharan</Link>
+            <Link to="https://www.linkedin.com/in/vishal-kumar-yadav-8085a3232/"> Vishal</Link>, 
+            <Link to="https://www.linkedin.com/in/shashank-sharma-733ba126b/"> Shashank</Link> &
+            <Link to="https://www.linkedin.com/in/shashank-sharma-733ba126b/"> Hariharan</Link>
           </p>
         </div>
         <div className="flex gap-4 sm:gap-6">
