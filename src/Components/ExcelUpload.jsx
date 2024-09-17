@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { read, utils } from "xlsx";
+import ToastMsg from "../Utils/ToastMsg";
 
-const ExcelUpload = ({ heading, onFileChange }) => {
-  const [fileName, setFileName] = useState("");
-
+const ExcelUpload = ({ heading, onFileChange, sheetNo }) => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
+    let success = false;
     if (file) {
-      setFileName(file.name);
-
       const data = await file.arrayBuffer();
       const workbook = read(data);
 
@@ -21,17 +18,40 @@ const ExcelUpload = ({ heading, onFileChange }) => {
       });
       const headers = jsonData[0]; // First row contains the headers
 
-      // Check for required headers
       const hasRegistrationNumber = headers.includes("Registration Number");
       const hasQuestionNumber = headers.includes("Question Number");
+      const hasMarks = headers.includes("Marks");
 
-      if (hasRegistrationNumber && hasQuestionNumber) {
-        console.log("Both headers found:", headers);
-      } else {
-        console.log("Missing headers. Found headers:", headers);
+      switch (sheetNo) {
+        case 1:
+          if (hasRegistrationNumber && hasMarks && hasQuestionNumber) {
+            ToastMsg("Excel Sheet Uploaded Successfully", "success");
+            success = true;
+          } else {
+            //console.log("Missing headers. Found headers:", headers);
+            ToastMsg("Headers missing in Excel sheet", "error");
+          }
+          break;
+
+        case 2:
+          if (hasRegistrationNumber && hasQuestionNumber) {
+            ToastMsg("Excel Sheet Uploaded Successfully", "success");
+            success = true;
+          } else {
+            //console.log("Missing headers. Found headers:", headers);
+            ToastMsg("Headers missing in Excel sheet", "error");
+          }
+          break;
+
+        default:
+          console.log("Invalid sheet number");
       }
 
-      onFileChange(file);
+      if (success) {
+        onFileChange(file);
+      } else {
+        onFileChange(null);
+      }
     }
   };
 

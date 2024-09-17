@@ -12,15 +12,19 @@ function Home(){
   const [secondFile, setSecondFile] = useState(null);
 
   const handleFirstSheetUpload = (file) => {
-    setFirstSheetUploaded(true);
-    setFirstFileName(file.name);
-    setFirstFile(file);
+    if (file) {
+      setFirstSheetUploaded(true);
+      setFirstFileName(file.name);
+      setFirstFile(file);
+    }
   };
 
   const handleSecondSheetUpload = (file) => {
-    setSecondSheetUploaded(true);
-    setSecondFileName(file.name);
-    setSecondFile(file);
+    if (file) {
+      setSecondSheetUploaded(true);
+      setSecondFileName(file.name);
+      setSecondFile(file);
+    }
   };
 
   const handleAnalyzeClick = () => {
@@ -57,6 +61,7 @@ function Home(){
             <ExcelUpload
               heading={"Upload 1st Sheet"}
               onFileChange={handleFirstSheetUpload}
+              sheetNo={1}
             />
           )}
         </motion.div>
@@ -81,6 +86,7 @@ function Home(){
             <ExcelUpload
               heading={"Upload 2nd Sheet"}
               onFileChange={handleSecondSheetUpload}
+              sheetNo={2}
             />
           )}
         </motion.div>
