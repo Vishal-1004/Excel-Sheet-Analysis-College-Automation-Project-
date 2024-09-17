@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Footer, Navbar } from "./Components";
+import { Footer, Navbar, ScrollToTop } from "./Components";
 import { Home, PrivacyPolicy } from "./Pages";
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
