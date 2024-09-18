@@ -85,7 +85,7 @@ const Analysis = ({ file1Data, file2Data }) => {
 
       {/* Download button */}
       <button 
-        className="mt-4 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all"
+        className="mt-4 bg-green-700 hover:bg-green-600 text-gray-100 px-5 py-3 rounded-lg transition-all"
         onClick={downloadExcel}
       >
         Download as Excel

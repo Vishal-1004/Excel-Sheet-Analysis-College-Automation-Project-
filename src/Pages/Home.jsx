@@ -146,7 +146,7 @@ function Home() {
 
         {!isAnalyzing && (
           <button
-            className={`mt-4 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all ${
+            className={`mt-4 bg-green-700 hover:bg-green-600 text-gray-100 px-5 py-3 rounded-lg transition-all ${
               !secondSheetUploaded ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={!secondSheetUploaded}
@@ -165,7 +165,7 @@ function Home() {
 
         {isAnalyzing && (
           <button
-            className={`mt-2 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all ${
+            className={`mt-2 bg-green-700 hover:bg-green-600 text-gray-100 px-5 py-3 rounded-lg transition-all ${
               !secondSheetUploaded ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleAnalyzeOtherClick}
