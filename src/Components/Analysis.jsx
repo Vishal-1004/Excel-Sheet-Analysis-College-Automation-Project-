@@ -31,7 +31,7 @@ const processData = (file1Data, file2Data) => {
   return { questionNumbers, result };
 };
 
-const Analysis = ({ file1, file2, file1Data, file2Data }) => {
+const Analysis = ({ file1Data, file2Data }) => {
   const { questionNumbers, result } = processData(file1Data, file2Data);
 
   const downloadExcel = () => {
@@ -56,11 +56,6 @@ const Analysis = ({ file1, file2, file1Data, file2Data }) => {
 
   return (
     <div>
-      <h1>The files you have uploaded are:</h1>
-      <p>
-        {file1} & {file2}
-      </p>
-
       {/* Display the table */}
       <table border="1" cellPadding="5">
         <thead>
@@ -89,7 +84,12 @@ const Analysis = ({ file1, file2, file1Data, file2Data }) => {
       </table>
 
       {/* Download button */}
-      <button onClick={downloadExcel}>Download as Excel</button>
+      <button 
+        className="mt-4 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all"
+        onClick={downloadExcel}
+      >
+        Download as Excel
+      </button>
     </div>
   );
 };

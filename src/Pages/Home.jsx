@@ -5,31 +5,31 @@ import { motion } from "framer-motion";
 import { Analysis, ExcelUpload } from "../Components";
 
 function Home() {
-  const [firstSheetUploaded, setFirstSheetUploaded] = useState(false);
-  const [secondSheetUploaded, setSecondSheetUploaded] = useState(false);
-  const [firstFileName, setFirstFileName] = useState("");
-  const [secondFileName, setSecondFileName] = useState("");
-  const [firstFileData, setFirstFileData] = useState(null);
-  const [secondFileData, setSecondFileData] = useState(null);
-
   const [showAnalysis, setShowAnalysis] = useState(false);
-
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  const [firstSheetUploaded, setFirstSheetUploaded] = useState(false);
+  const [firstFileName, setFirstFileName] = useState("");
+  const [firstFileData, setFirstFileData] = useState(null);
   const handleFirstSheetUpload = async (file) => {
     if (file) {
       setFirstSheetUploaded(true);
       setFirstFileName(file.name);
-
+      
       const data = await file.arrayBuffer();
       const workbook = read(data);
-
+      
       const workSheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = utils.sheet_to_json(workSheet);
-
+      
       //console.log(jsonData);
       setFirstFileData(jsonData);
     }
   };
-
+  
+  const [secondSheetUploaded, setSecondSheetUploaded] = useState(false);
+  const [secondFileName, setSecondFileName] = useState("");
+  const [secondFileData, setSecondFileData] = useState(null);
   const handleSecondSheetUpload = async (file) => {
     if (file) {
       setSecondSheetUploaded(true);
@@ -64,9 +64,22 @@ function Home() {
   const handleAnalyzeClick = () => {
     if (firstFileData && secondFileData) {
       setShowAnalysis(true);
+      setIsAnalyzing(true);
     } else {
       console.log("Please upload both files.");
     }
+  };
+
+  const handleAnalyzeOtherClick = () => {
+    // Reset all states to allow new files to be uploaded
+    setFirstSheetUploaded(false);
+    setSecondSheetUploaded(false);
+    setFirstFileName("");
+    setSecondFileName("");
+    setFirstFileData(null);
+    setSecondFileData(null);
+    setShowAnalysis(false);
+    setIsAnalyzing(false); // Hide "Analyze Other" button and show "Analyze" button again
   };
 
   return (
@@ -125,28 +138,40 @@ function Home() {
         </motion.div>
 
         {secondFileName && (
-          <p className="text-green-600 mt-2">
+          <p className="text-green-600">
             Uploaded 2nd File:{" "}
             <span className="font-semibold">{secondFileName}</span>
           </p>
         )}
 
-        <button
-          className={`mt-4 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all ${
-            !secondSheetUploaded ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={!secondSheetUploaded}
-          onClick={handleAnalyzeClick}
-        >
-          Analyze
-        </button>
+        {!isAnalyzing && (
+          <button
+            className={`mt-4 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all ${
+              !secondSheetUploaded ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!secondSheetUploaded}
+            onClick={handleAnalyzeClick}
+          >
+            Analyze
+          </button>
+        )}
+
         {showAnalysis && (
           <Analysis
-            file1={firstFileName}
-            file2={secondFileName}
             file1Data={firstFileData}
             file2Data={secondFileData}
           />
+        )}
+
+        {isAnalyzing && (
+          <button
+            className={`mt-2 bg-green-700 text-gray-100 px-5 py-3 rounded-lg transition-all ${
+              !secondSheetUploaded ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={handleAnalyzeOtherClick}
+          >
+            Analyze Other
+          </button>
         )}
       </div>
     </div>
