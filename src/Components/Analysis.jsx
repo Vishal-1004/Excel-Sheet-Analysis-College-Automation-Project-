@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
+import * as XLSX from "xlsx";
 
 const processData = (file1Data, file2Data) => {
   const questionNumbers = file2Data["Question Number"];
   const registrationNumbers = file2Data["Registration Number"];
 
-  // Create the result array where each entry will be an object containing registration number and marks for each question
   const result = registrationNumbers
     .filter((regNo) => regNo !== "") // Skip empty registration numbers
     .map((regNo) => {
@@ -19,13 +19,11 @@ const processData = (file1Data, file2Data) => {
             entry["Question Number"] === questionNum
         );
 
-        // Store the marks or "N/A" if no record is found, and add to total if valid marks are found
         const marks = record ? record["Marks"] : "N/A";
         row[questionNum] = marks;
         if (marks !== "N/A") totalMarks += marks;
       });
 
-      // Add the total marks for each student
       row["Total Marks"] = totalMarks;
       return row;
     });
@@ -35,6 +33,26 @@ const processData = (file1Data, file2Data) => {
 
 const Analysis = ({ file1, file2, file1Data, file2Data }) => {
   const { questionNumbers, result } = processData(file1Data, file2Data);
+
+  const downloadExcel = () => {
+    // Create worksheet data with registration number first, then questions, then total marks
+    const worksheetData = result.map((row) => ({
+      "Registration Number": row["Registration Number"], // First column
+      ...questionNumbers.reduce((acc, qNum) => {
+        acc[qNum] = row[qNum];
+        return acc;
+      }, {}),
+      "Total Marks": row["Total Marks"], // Last column
+    }));
+
+    // Create a new worksheet and workbook
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
+
+    // Download the Excel file
+    XLSX.writeFile(workbook, "student_results.xlsx");
+  };
 
   return (
     <div>
@@ -47,9 +65,9 @@ const Analysis = ({ file1, file2, file1Data, file2Data }) => {
       <table border="1" cellPadding="5">
         <thead>
           <tr>
-            <th rowSpan="2">Registration Number</th>
+            <th rowSpan="2">Registration Number</th> {/* Registration first */}
             <th colSpan={questionNumbers.length}>Question</th>
-            <th rowSpan="2">Total Marks</th>
+            <th rowSpan="2">Total Marks</th> {/* Total marks last */}
           </tr>
           <tr>
             {questionNumbers.map((qNum, index) => (
@@ -69,6 +87,9 @@ const Analysis = ({ file1, file2, file1Data, file2Data }) => {
           ))}
         </tbody>
       </table>
+
+      {/* Download button */}
+      <button onClick={downloadExcel}>Download as Excel</button>
     </div>
   );
 };
