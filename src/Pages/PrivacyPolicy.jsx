@@ -1,12 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function PrivacyPolicy(){
   return (
     <div className="max-w-3xl mx-auto p-6 text-gray-500">
-      <div className='flex flex-col justify-center items-center mb-4'>
-        <p className="text-green-700 mb-2 font-semibold">
+      <div className="relative mb-4 text-center">
+        <div className="text-green-700 font-semibold">
           Current as of 17 Sep 2024
-        </p>
+        </div>
+
+        <Link to="/">
+          <button
+            className="absolute -right-5 text-gray-600 hover:text-gray-800 transition-transform transform hover:translate-x-2"
+          >
+            &larr; Go Back
+          </button>
+        </Link>
+      </div>
+
+      <div className='flex flex-col justify-center items-center mb-4'>
         <h1 className="text-4xl font-bold text-center mb-4 text-gray-700 tracking-wide">
           Privacy Policy
         </h1>
