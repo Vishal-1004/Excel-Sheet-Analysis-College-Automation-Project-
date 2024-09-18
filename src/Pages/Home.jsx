@@ -25,7 +25,7 @@ function Home() {
       const workSheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = utils.sheet_to_json(workSheet);
 
-      console.log(jsonData);
+      //console.log(jsonData);
       setFirstFileData(jsonData);
     }
   };
