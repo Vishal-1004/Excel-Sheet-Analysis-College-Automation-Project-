@@ -55,33 +55,54 @@ const Analysis = ({ file1Data, file2Data }) => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto mt-4">
       {/* Display the table */}
-      <table border="1" cellPadding="5">
-        <thead>
-          <tr>
-            <th rowSpan="2">Registration Number</th> {/* Registration first */}
-            <th colSpan={questionNumbers.length}>Question</th>
-            <th rowSpan="2">Total Marks</th> {/* Total marks last */}
-          </tr>
-          <tr>
-            {questionNumbers.map((qNum, index) => (
-              <th key={index}>{qNum}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {result.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              <td>{row["Registration Number"]}</td>
-              {questionNumbers.map((qNum, colIndex) => (
-                <td key={colIndex}>{row[qNum]}</td>
-              ))}
-              <td>{row["Total Marks"]}</td>
+      <div className="overflow-x-auto w-full relative overflow-y-auto max-h-96">
+        <table className="min-w-full border-collapse border border-gray-300 bg-white shadow-md rounded-lg">
+          <thead className="bg-green-700 text-white">
+            <tr>
+              <th className="px-4 py-2 border border-gray-300" rowSpan="2">
+                Registration Number
+              </th>
+              <th className="px-4 py-2 border border-gray-300" colSpan={questionNumbers.length}>
+                Question
+              </th>
+              <th className="px-4 py-2 border border-gray-300" rowSpan="2">
+                Total Marks
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+            <tr>
+              {questionNumbers.map((qNum, index) => (
+                <th key={index} className="px-4 py-2 border border-gray-300">
+                  {qNum}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {result.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={rowIndex % 2 === 0 ? "bg-gray-100" : "bg-white"}
+              >
+                <td className="px-4 py-2 border border-gray-300">
+                  {row["Registration Number"]}
+                </td>
+                {questionNumbers.map((qNum, colIndex) => (
+                  <td key={colIndex} className="px-4 py-2 border border-gray-300">
+                    {row[qNum]}
+                  </td>
+                ))}
+                <td className="px-4 py-2 border border-gray-300">
+                  {row["Total Marks"]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+      </div>
 
       {/* Download button */}
       <button 
